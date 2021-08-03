@@ -1,0 +1,172 @@
+<html>
+<head>
+	<title>staff-add-airplanes</title>
+</head>
+
+<body>
+	<h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+	<div align="center">
+		<a href="/logout">
+			<input type='button' value='Sign Out' style="font-size:15px"/>
+		</a>
+		<a href="/staff/home">
+			<input type='button' value='Go Back' style="font-size:15px"/></br>
+		</a>
+	</div>
+	<div style="width:100%; float:left; font-family:Avenir">
+		<h2 align="center">Upcoming Flights</h2>
+		
+		<form action="/staff/search" method="POST">
+			<table align="center" border="1" bordercolor=black cellpadding="9px" cellspacing="0px" frame=void
+				rules="all" width=95% >
+				<th>Deparutre City</th>
+				<th>Deparutre Airport</th>
+				<th>Deparutre Time</th>
+				<th>Arrival City</th>
+				<th>Arrival Airport</th>
+				<th>Arrival Time</th>
+				<th>Price</th>
+				<th>Airline</th>
+				<th>Airplane ID</th>
+				<th>Flight No.</th>
+				<th>Status</th>
+
+				<tr align="center">
+					<td ><input type="text" name = "departure_city" placeholder="depart city" size="10"/></td>
+					<td ><input type="text" name = "departure_airport" placeholder="depart ariport" size="10"/></td>
+					<td >
+						<input type="date" name = "departure_from"></br>
+						<input type="date" name = "departure_to">
+					</td>
+					<td ><input type="text" name = "arrival_city" placeholder="arrive city" size="10"/></td>
+					<td ><input type="text" name = "arrival_airport" placeholder="arrive airport" size="10"/></td>
+					<td >
+						<input type="date" name = "arrival_from"></br>
+						<input type="date" name = "arrival_to">
+					</td>
+					<td >
+						<input type="text" name = "price_from" placeholder="from" size="8"/></br>
+						<input type="text" name = "price_to" placeholder="to" size="8"/>
+					</td>
+					<td >/</td>
+					<td >/</td>
+					<td ><input type="text" name = "flight_num" placeholder="flight number" size="10"/></td>
+					<td ><input type="text" name = "status" placeholder="status" size="8"/></td>
+				</tr>
+			
+				{% for line in data1 %}
+				<tr align="center">
+					<td >{{line[0]}}</td>
+					<td >{{line[1]}}</td>
+					<td >{{line[2]}}</td>
+					<td >{{line[3]}}</td>
+					<td >{{line[4]}}</td>
+					<td >{{line[5]}}</td>
+					<td>{{line[6]}}</td>	
+					<td>{{line[7]}}</td>
+					<td>{{line[8]}}</td>
+					<td>{{line[9]}}</td>
+					<td>{{line[10]}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+
+			<div style="margin-left:35px; margin-right:20px">
+				<div style="width:7%; float:right">
+					<br>
+					<br>
+					<input type="submit" value ="Search" style="font-size:15px"/>
+				</div>
+				
+				<div style="width:7%; float:right;">
+						<br>
+						<br>
+						<a href="/staff/view_flight">
+							<input type='button' value='Reset' style="font-size:15px"/>
+						</a>
+				</div>
+
+				<div style="width:13%; float:left;">
+					<br>
+					<br>
+					<a href="/staff/create_flight">
+						<input type='button' value='Create New Flights' style="font-size:15px"/>
+                    </a>				
+                </div>
+
+				<div style="width:14%; float:left;">
+					<br>
+					<br>
+					<a href="/staff/change_status">
+						<input type='button' value='Change Flight Status' style="font-size:15px"/>
+                    </a>				
+                </div>
+
+				<div style="width:10%; float:left;">
+					<br>
+					<br>
+                    <span>Add Airplanes</span>
+				</div>
+
+				<div style="width:10%; float:left;">
+					<br>
+					<br>
+					<a href="/staff/add_airport">
+						<input type='button' value='Add Airports' style="font-size:15px"/></br>
+					</a>
+				</div>
+				<div style="width:10%; float:left;">
+					<br>
+					<br>
+					<a href="/staff/view_customer">
+						<input type='button' value='Full Customer Lists' style="font-size:15px"/></br>
+					</a>
+				</div>
+
+			</div>
+		</form>
+
+<!-------------------------------------------Add Airplanes------------------------------------------------------>
+		<div style="width:100%; float:left; font-family:Avenir">
+				<div style="margin-left:405px; margin-right:50px">
+					<form action="/staff/add_airplane/Auth" method="POST" styele="text-align:right">	
+						<br>
+						<label style="font-size:15px">
+							Airline:
+							<span>{{airline[0]}}</span></br>								
+						</label> 	
+						<label style="font-size:15px">
+							Airplane ID:
+							<input type="number" name = "id" placeholder="airplane id" required style="font-size:15px"/> </br>
+						</label>						
+						<label style="font-size:15px">
+							(Existing Airplane IDs:
+							<select>
+								{% for line in airplanes %}
+									<option value={{line[0]}}>{{line[0]}}</option>
+								{% endfor %}
+							</select>
+							)
+						</label></br>		
+						<label style="font-size:15px">
+							Airplane seats:
+							<input type="number" name = "seats" placeholder="airplane seats" required style="font-size:15px"/> </br>
+						</label>
+						<br>
+						<input type="submit" value = Submit style="font-size:15px"/>
+						{% with messages = get_flashed_messages() %}
+							{% if messages %}
+								<ul class="flashes">
+									{% for message in messages %}
+										<li>{{ message }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						{% endwith %}	
+					</form>	
+				</div>	
+		</div>
+
+	</div>
+</body>
+</html>

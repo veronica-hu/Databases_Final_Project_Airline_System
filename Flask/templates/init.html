@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Airline Ticket Reservation</title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<h1 align="center" style="font-family:Avenir">Welcome to NYU Airline Ticket Reservation System</h1>
+
+	<div id="table" style="width:75%; float:left; font-family:Avenir">
+		<h2 align="center">Incoming Flights</h2>
+
+		<form action="/search" method="POST">
+		<table align="center" border="1" bordercolor=black cellpadding="9px" cellspacing="0px" frame=void
+			rules="all" width=90% >
+		
+		<th>Deparutre City</th>
+		<th>Deparutre Airport</th>
+		<th>Deparutre Time</th>
+		<th>Arrival City</th>
+		<th>Arrival Airport</th>
+		<th>Arrival Time</th>
+		<th>Status</th>
+	
+		<tr align="center">
+			<td ><input type="text" name = "departure_city" placeholder="depart city" size="12"/></td>
+			<td ><input type="text" name = "departure_airport" placeholder="depart ariport" size="12"/></td>
+			<td >
+				<input type="date" name = "departure_time">
+			</td>
+			<td ><input type="text" name = "arrival_city" placeholder="arrive aircity" size="12"/></td>
+			<td ><input type="text" name = "arrival_airport" placeholder="arrive airport" size="12"/></td>
+			<td >
+				<input type="date" name = "arrival_time"/>
+			</td>
+			<td ><input type="text" name = "status" placeholder="status" size="8"/></td>
+		</tr>
+	
+		{% for line in posts %}
+		<tr align="center">
+			<td >{{line[0]}}</td>
+			<td >{{line[1]}}</td>
+			<td >{{line[2]}}</td>
+			<td >{{line[3]}}</td>
+			<td >{{line[4]}}</td>
+			<td >{{line[5]}}</td>
+			<td >{{line[6]}}</td>
+		</tr>
+		{% endfor %}
+		</table>
+
+		<div style="margin-left:70px; margin-right:50px">
+			<div style="width:7%; float:right">
+				<br>
+				<input type="submit" value ="Search" style="font-size:15px"/>
+			</div>
+			
+			<div style="width:10%; float:right;">
+					<br>
+					<a href="/">
+						<input type='button' value='Reset' style="font-size:15px"/>
+					</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div id="login" style="width:25%; float:right;font-family:Avenir;">
+	<br>
+	<h3 align="center" style="font-size: 20px;">Sign in</h3>
+	<form action="/loginAuth" method="POST" style="font-size: 15px;">
+		<input type="radio" name="user" value="customer" checked="checked"/>  customer  
+		<input type="radio" name="user" value="agent" />  booking agent  
+		<input type="radio" name="user" value="staff" />  airline staff  </br>
+		<p></p>
+		<input type="text" name ="username" placeholder="username/email" required style="font-size:15px" /></br>
+		<input type="password" name = "password" placeholder="password" required style="font-size:15px"/></br>
+		<p></p>
+		<input type="submit" value = Login style="font-size:15px"/>
+		{% with messages = get_flashed_messages() %}
+  			{% if messages %}
+    			<ul class="flashes">
+    			{% for message in messages %}
+      				<li>{{ message }}</li>
+    			{% endfor %}
+    			</ul>
+  			{% endif %}
+		{% endwith %}
+	</form>
+	<p></p>
+	<a href="/register/customer">Doesn't have an account yet? Click to register</a>
+
+</div>
+
+<!---
+<div id="register" style="font-size: 20px; width:30%; float:right">
+	<p align="center">Register</p>
+	<a href="/register_customer">customer</a>
+	<a href="/register_agent">booking agent</a>
+	<a href="/register_staff">airline staff</a></br>
+--->
+</div>
+
+</body>
+</html>

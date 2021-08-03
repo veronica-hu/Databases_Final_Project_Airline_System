@@ -1,0 +1,119 @@
+<html>
+<head>
+    <title>customer-track-spending</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
+
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/data.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+</head>
+
+<body>
+        <h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+        <div align="center">
+            <a href="/logout">
+                <input type='button' value='Sign Out' style="font-size:15px"/>
+            </a>
+            <a href="/customer/home">
+                <input type='button' value='Go Back' style="font-size:15px"/></br>
+            </a>
+        </div>
+        <br>
+        <div style="width:70%; margin-left:200px; font-family:Avenir">
+            <h2 align="center">Total Amount of Money Spent</h2>
+            <form action="/customer/spending_time" method="POST">
+                <table align="center" border="1" bordercolor=black  width=80% cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                    <th>In Past Year</th>
+                    <th>
+                        <label>From  <input type="date" name = "from_date"/></br>
+                            To  <input type="date" name = "to_date"/><span></br>
+                            <p></p>
+                            <input type="submit" value = Check />
+                            <a href="/customer/track_spending">
+                                <input type='button' value='Reset'/>
+                            </a>                    
+                        </label>
+                    </th>
+                    <tr align="center">
+                        <td >￥{{data0[0]}}</td>
+                        <td >￥{{data2[0]}}</td>
+                    </tr>
+                </table>
+            </form>
+            <br>
+            <br>
+        </div>
+
+        <div style="width:100%; float:left; font-family:Avenir">
+            <div style="width:40%; float:left; margin-left:50px; font-family:Avenir">
+                <h2 align="center">Monthly Spending in Past 6 Months</h2>
+                <table id="datatable1" align="center" border="1" bordercolor=black  width=80% cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                    <th>Month</th>
+                    <th>Total Spending</th>
+                    {% for line in data1 %}
+			        <tr align="center">
+				        <td >{{line[0]}}</td>
+				        <td >{{line[1]}}</td>
+			        </tr>
+			        {% endfor %}
+                </table>
+            </div>
+
+            <div style="width:40%; float:right; margin-right:80px; font-family:Avenir">
+                <h2 align="center">Monthly Spending by Specified Date Range</h2>
+                <table id="datatable2" align="center" border="1" bordercolor=black  width=80% cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                    <th>Month</th>
+                    <th>Total Spending</th>
+                    {% for line in data3 %}
+			        <tr align="center">
+				        <td >{{line[0]}}</td>
+				        <td >{{line[1]}}</td>
+			        </tr>
+			        {% endfor %}
+                </table>
+            </div>
+        </div>        
+    
+        <div style="width:100%; float:left; font-family:Avenir">
+        </br>
+        </br>
+        <div id="container" style="width:40%; float:left; margin-left:50px"></div>
+            <script>
+            var chart = Highcharts.chart('container', {
+                data: {table: 'datatable1'},
+                chart: {type: 'column'},
+                title: {text: 'Monthly Spending in Past 6 Months'},
+                yAxis: {
+                    allowDecimals: false,
+                    title: {text: '', rotation: 0}
+                        },
+                    tooltip: {formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + '#' + this.point.name.toLowerCase();}
+                            }
+                    });
+            </script>
+        
+        <div id="container2" style="width:40%; float:right; margin-right:80px"></div>
+        <script>
+            var chart = Highcharts.chart('container2', {
+                data: {table: 'datatable2'},
+                chart: {type: 'column'},
+                title: {text: 'Monthly Spending by Specified Date Range'},
+                yAxis: {
+                    allowDecimals: false,
+                    title: {text: '', rotation: 0}
+                        },
+                    tooltip: {formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + '#' + this.point.name.toLowerCase();}
+                            }
+                    });
+        </script>
+        </div>
+
+</body>
+</html>

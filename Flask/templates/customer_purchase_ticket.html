@@ -1,0 +1,183 @@
+<html>
+<head>
+	<title>customer-purchase-ticket</title>
+</head>
+
+<body>
+        <h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+        <div align="center">
+            <a href="/logout">
+                <input type='button' value='Sign Out' style="font-size:15px"/>
+            </a>
+        </div>
+        <div style="width:100%; float:left; font-family:Avenir">
+            <h2 align="center">My Upcoming Flights</h2>
+
+            <form action="/customer/search" method="POST">
+                <table align="center" border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void
+                    rules="all" width=95% >
+                    <th>Deparutre City</th>
+                    <th>Deparutre Airport</th>
+                    <th>Deparutre Time</th>
+                    <th>Arrival City</th>
+                    <th>Arrival Airport</th>
+                    <th>Arrival Time</th>
+                    <th>Price</th>
+                    <th>Airline</th>
+                    <th>Airplane ID</th>
+                    <th>Flight No.</th>
+                    <th>Status</th>
+    
+                    <tr align="center">
+                        <td ><input type="text" name = "departure_city" placeholder="depart city" size="12"/></td>
+                        <td ><input type="text" name = "departure_airport" placeholder="depart ariport" size="12"/></td>
+                        <td >
+                            <input type="date" name = "departure_time">
+                        </td>
+                        <td ><input type="text" name = "arrival_city" placeholder="arrive city" size="12"/></td>
+                        <td ><input type="text" name = "arrival_airport" placeholder="arrive airport" size="12"/></td>
+                        <td >
+                            <input type="date" name = "arrival_time"/>
+                        </td>
+                        <td >/</td>
+                        <td >/</td>
+                        <td >/</td>
+                        <td >/</td>
+                        <td >/</td>
+                    </tr>
+                
+                    {% for line in data0 %}
+                    <tr align="center">
+                        <td >{{line[0]}}</td>
+                        <td >{{line[1]}}</td>
+                        <td >{{line[2]}}</td>
+                        <td >{{line[3]}}</td>
+                        <td >{{line[4]}}</td>
+                        <td >{{line[5]}}</td>
+                        <td>{{line[6]}}</td>	
+                        <td>{{line[7]}}</td>
+                        <td>{{line[8]}}</td>
+                        <td>{{line[9]}}</td>
+                        <td>{{line[10]}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <div style="margin-left:40px; margin-right:10px">
+                    <div style="width:7%; float:right">
+                        <br>
+                        <br>
+                        <input type="submit" value ="Search" style="font-size:15px"/>
+                        <br>
+                        <br>
+                    </div>
+                    
+                    <div style="width:7%; float:right;">
+                            <br>
+                            <br>
+                            <a href="/customer/home">
+                                <input type='button' value='Reset' style="font-size:15px"/>
+                            </a>
+                            <br>
+                            <br>
+                    </div>
+
+                    <div style="width:13%; float:left;">
+                            <br>
+                            <br>
+                            <span>Purchase Ticket</span>
+                            <br>
+                            <br>
+                    </div>
+
+                    <div style="width:20%; float:left;">
+                            <br>
+                            <br>
+                            <a href="/customer/track_spending">
+                                <input type='button' value='Track My Spending' style="font-size:15px"/>
+                            </a>
+                            <br>
+                            <br>
+                    </div>
+
+                    <div style="width:33%; float:left; font-family:Avenir">
+                            <br>
+                            <h2 align="center">Top 3 Detinations</h2>
+                            <table align="center">
+                                <tr>
+                                    <td>
+                                    <table border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                                        <th>In Past 3 Months</th>
+                                        <th>#</th>
+                                        {% for line in data4 %}
+                                            <tr align="center">
+                                                <td >{{line[0]}}</td>
+                                                <td >{{line[1]}}</td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    </td>
+                                    <td>
+                                    <table border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                                        <th>In Past Year</th>
+                                        <th>#</th>
+                                        {% for line in data5 %}
+                                            <tr align="center">
+                                                <td >{{line[0]}}</td>
+                                                <td >{{line[1]}}</td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div> 
+                    
+                </div>
+            </form>
+        </div>
+
+<!--------------------------------------Purchase Ticket-------------------------------------------------------------->
+		<div style="width:100%; float:left; font-family:Avenir">
+			<div style="margin-left:35px; margin-right:50px">
+				<form action="/customer/purchase_ticket/Auth" method="POST" styele="text-align:right">	
+					<label style="font-size:15px">
+						Airline - Flight Number:
+						<select name="flights" required>
+							{% for line in flights %}
+								<option value="{{line[0]}}-{{line[1]}}">{{line[0]}} - {{line[1]}}</option>
+							{% endfor %}
+						</select>
+                    </label></br>
+                    <label style="font-size:15px">
+                            Booking Agent ID (Optional)
+                            <select name="agent_id" required>
+                                
+                                {% for line in agent_id %}
+                                    <option value={{line[0]}}>{{line[0]}}</option>
+                                {% endfor %}
+                                <option value="">Na/</option>
+                            </select>
+                    </label>
+					<br>
+					<br>
+					<input type="submit" value = Submit style="font-size:15px"/>
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+					  		<ul class="flashes">
+					  			{% for message in messages %}
+									<li>{{ message }}</li>
+					  			{% endfor %}
+					  		</ul>
+						{% endif %}
+					{% endwith %}	
+					<br>
+					<br>
+				</form>
+			</div>
+		</div>
+
+</body>
+</html>

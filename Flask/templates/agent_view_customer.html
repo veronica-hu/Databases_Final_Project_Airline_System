@@ -1,0 +1,95 @@
+<html>
+<head>
+    <title>agent-view-customers</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
+
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/data.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+</head>
+
+<body>
+        <h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+        <div align="center">
+            <a href="/logout">
+                <input type='button' value='Sign Out' style="font-size:15px"/>
+            </a>
+            <a href="/agent/home">
+                <input type='button' value='Go Back' style="font-size:15px"/></br>
+            </a>
+        </div>
+        <br>
+
+        <div style="width:45%; float:left; margin-left:50px; font-family:Avenir">
+            <h2 align="center">Top 5 Customers Based on # of Tickets Bought</h2>
+            <table id="datatable" align="center" border="1" bordercolor=black  width=60% cellpadding="9px" cellspacing="0px" frame=void rules="all"> 
+                <!---style="visibility:hidden"-->
+                <th>Customer Email</th>
+                <th># of Tickets Bought (in Past 6 Months)</th>
+                {% for line in data1 %}
+                    <tr align="center">
+                        <td >{{line[0]}}</td>
+                        <td >{{line[1]}}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                <br>
+                <br>
+        </div>
+
+        <div style="width:45%; float:right; margin-right:50px; font-family:Avenir">
+            <h2 align="center">Top 5 Customers Based on Commission Received</h2>
+            <table id="datatable2" align="center" border="1" bordercolor=black  width=60% cellpadding="9px" cellspacing="0px" frame=void rules="all"> 
+                    <!---style="visibility:hidden"-->
+                    <th>Customer Email</th>
+                    <th>Amount of Commission (in Past Year)</th>
+                    {% for line in data2 %}
+                        <tr align="center">
+                            <td >{{line[0]}}</td>
+                            <td >{{line[1]}}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    <br>
+                    <br>
+        </div>
+
+        <div id="container" style="width:40%; float:left; margin-left:60px"></div>
+        <script>
+            var chart = Highcharts.chart('container', {
+                data: {table: 'datatable'},
+                chart: {type: 'column'},
+                title: {text: 'Top 5 Customers Based on # of Tickets Bought'},
+                yAxis: {
+                    allowDecimals: false,
+                    title: {text: '', rotation: 0}
+                        },
+                    tooltip: {formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + '#' + this.point.name.toLowerCase();}
+                            }
+                    });
+        </script>
+
+        <div id="container2" style="width:40%; float:right; margin-right:60px"></div>
+        <script>
+            var chart = Highcharts.chart('container2', {
+                data: {table: 'datatable2'},
+                chart: {type: 'column'},
+                title: {text: 'Top 5 Customers Based on Commission Received'},
+                yAxis: {
+                    allowDecimals: false,
+                    title: {text: '', rotation: 0}
+                        },
+                    tooltip: {formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + '#' + this.point.name.toLowerCase();}
+                            }
+                    });
+        </script>
+
+</body>
+</html>

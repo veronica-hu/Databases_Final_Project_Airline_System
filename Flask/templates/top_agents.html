@@ -1,0 +1,71 @@
+<html>
+<head>
+	<title>staff-top-agents</title>
+</head>
+
+<body>
+	<h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+	<div align="center">
+		<a href="/logout">
+			<input type='button' value='Sign Out' style="font-size:15px"/>
+		</a>
+		<a href="/staff/home">
+			<input type='button' value='Go Back' style="font-size:15px"/></br>
+		</a>
+    </div>
+
+    <div style="width:100%; float:left; font-family:Avenir">
+    <h2 align="center">Top 5 Booking Agents</h2>
+		<table align="center">
+			<tr>
+				<td>
+					<table border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void rules="all">
+						<th>In Past Month</th>
+						<th># of Tickets Sold</th>
+						{% for line in data1 %}
+							<tr align="center">
+								<td >{{line[0]}}</td>
+								<td >{{line[1]}}</td>
+								<td></td>
+							</tr>
+						{% endfor %}
+					</table>
+				</td>
+
+				<td>
+					<table border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                            <th>In Past Year</th>
+                            <th># of Tickets Sold</th>
+                            {% for line in data2 %}
+							<tr align="center">
+								<td >{{line[0]}}</td>
+								<td >{{line[1]}}</td>
+								<td></td>
+							</tr>
+						{% endfor %}
+					</table>
+                </td>
+                <td>
+                    <table border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                        <th>In Past Year</th>
+                        <th>Commission (10%*Ticket Price)</th>
+                            {% for line in data3 %}
+                                <tr align="center">
+                                    <td >{{line[0]}}</td>
+                                    <td >{{line[1]}}</td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </td>                
+
+                
+			</tr>	
+		</table>   
+    
+    </div>
+    
+
+
+</body>
+</html>

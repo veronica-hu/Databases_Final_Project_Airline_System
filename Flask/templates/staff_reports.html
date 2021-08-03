@@ -1,0 +1,201 @@
+<html>
+<head>
+    <title>staff-charts-reports</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
+
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/data.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+</head>
+
+<body>
+    <h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+	<div align="center">
+		<a href="/logout">
+			<input type='button' value='Sign Out' style="font-size:15px"/>
+		</a>
+		<a href="/staff/home">
+			<input type='button' value='Go Back' style="font-size:15px"/></br>
+		</a>
+    </div>
+    <br>
+    <div style="width:100%; float:left; font-family:Avenir">
+        <h2 align="center"># of Tickets Sold</h2>
+        <form action="/staff/report_time" method="POST">
+		    <table align="center" border="1" bordercolor=black  width=80% cellpadding="10px" cellspacing="0px" frame=void rules="all">
+                <th>In Past Year</th>
+                <th>In Past Month</th>
+                <th>
+                    <label>From  <input type="date" name = "from_date"/>
+                        To  <input type="date" name = "to_date"/><span></br>
+                        <p></p>
+                        <input type="submit" value = Check />
+                        <a href="/staff/reports">
+							<input type='button' value='Reset'/>
+						</a>                    
+                    </label>
+                </th>
+                <tr align="center">
+                    <td >{{data1[0]}}</td>
+                    <td >{{data2[0]}}</td>
+                    <td >{{data3[0]}}</td>
+                </tr>
+            </table>
+        </form>
+        <br>
+        <br>
+    </div>
+
+    <div style="width:100%; float:left; font-family:Avenir">
+    <div style="width:33%; float:left; font-family:Avenir">
+        <h2 align="center">Monthly Sales</h2>
+        <table id="datatable" align="center" border="1" bordercolor=black  width=60% cellpadding="9px" cellspacing="0px" frame=void rules="all"
+                > <!---style="visibility:hidden"-->
+            <th>Month</th>
+            <th># of Tickets Sold</th>
+            {% for line in data4 %}
+			<tr align="center">
+				<td >{{line[0]}}</td>
+				<td >{{line[1]}}</td>
+			</tr>
+			{% endfor %}
+        </table>
+        <br>
+        <br>
+    </div>
+
+    <div style="width:33%; float:left; font-family:Avenir">
+            <h2 align="center">Revenue Report of Past Month</h2>
+            <table id="datatable2" align="center" border="1" bordercolor=black  width=60% cellpadding="9px" cellspacing="0px" frame=void rules="all"
+                    > <!---style="visibility:hidden"-->
+                <th>Revenue Type</th>
+                <th>Sum</th>
+                <tr align="center">
+                    <td>Direct Revenue</td>
+                    <td >{{data5[0][0]}}</td>
+                </tr>
+                <tr align="center">
+                    <td>Indirect Revenue</td>
+                    <td >{{data5[0][1]}}</td>
+                </tr>
+            </table>
+            <br>
+        <br>
+    </div>
+
+    <div style="width:33%; float:left; font-family:Avenir">
+            <h2 align="center">Revenue Report of Past Year</h2>
+            <table id="datatable3" align="center" border="1" bordercolor=black  width=60% cellpadding="9px" cellspacing="0px" frame=void rules="all"
+                    > <!---style="visibility:hidden"-->
+                <th>Revenue Type</th>
+                <th>Sum</th>
+                <tr align="center">
+                    <td>Direct Revenue</td>
+                    <td >{{data6[0][0]}}</td>
+                </tr>
+                <tr align="center">
+                    <td>Indirect Revenue</td>
+                    <td >{{data6[0][1]}}</td>
+                </tr>
+            </table>
+            <br>
+        <br>
+    </div>
+    </div>
+
+    <div style="width:100%; float:left; font-family:Avenir">
+    <div id="container" style="width:30%; float:left; margin:20px"></div>
+        <script>
+            var chart = Highcharts.chart('container', {
+                data: {table: 'datatable'},
+                chart: {type: 'column'},
+                title: {text: 'Monthly Sales'},
+                yAxis: {
+                    allowDecimals: false,
+                    title: {text: '', rotation: 0}
+                        },
+                    tooltip: {formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + '#' + this.point.name.toLowerCase();}
+                            }
+                    });
+        </script>
+
+    <div id="container2" style="width:30%; float:left; margin:20px"></div>
+        <script>
+            var chart = Highcharts.chart('container2', {
+                data: {table: 'datatable2'},
+                chart: {type: 'pie'},
+		        title: {text: ' Revenue Report of Past Month'},
+		        tooltip: {
+				    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
+		        plotOptions: {
+				    pie: {allowPointSelect: true,
+			            cursor: 'pointer',
+						dataLabels: {enabled: false},
+						showInLegend: true}
+		            },
+		        series: [{
+                colorByPoint: true,
+                data: {table: 'datatable2'}}]
+                });
+        </script>
+
+    <div id="container3" style="width:30%; float:right; margin:30px"></div>
+        <script>
+            var chart = Highcharts.chart('container3', {
+                data: {table: 'datatable3'},
+                chart: {type: 'pie'},
+		        title: {text: ' Revenue Report of Past Year'},
+		        tooltip: {
+				    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
+		        plotOptions: {
+				    pie: {allowPointSelect: true,
+			            cursor: 'pointer',
+						dataLabels: {enabled: false},
+						showInLegend: true}
+		            },
+		        series: [{
+                colorByPoint: true,
+                data: {table: 'datatable2'}}]
+                });
+        </script>
+    </div>
+
+<!----------------------------------------Echarts Sample----------------------------------------------------
+    <div style="width:40%; float:right; font-family:Avenir">
+        <div id="chart" style="width:400px;height:400px;"></div>
+
+        <script type="text/javascript">
+        // 初始化图表标签
+            var myChart = echarts.init(document.getElementById('chart'));
+            var options={
+                title:{
+                text:'AI学习热度'
+                    },
+                legend:{
+                    data:['AI']
+                    },
+                xAxis:{
+                    data:['ML','DL','TL','RL','DL-GAN']
+                    },
+                yAxis:{},
+                //name=legend.data的时候才能显示图例
+                series:[{
+                    name:'销量',
+                    type:'bar',
+                    data:['12','32','45','78','60']
+                        }]
+ 
+                };
+            myChart.setOption(options);
+        </script>
+    </div>
+------>
+
+
+</body>
+</html>

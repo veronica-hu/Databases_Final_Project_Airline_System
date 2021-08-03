@@ -1,0 +1,49 @@
+<html>
+<head>
+	<title>staff-view-customers</title>
+</head>
+
+<body>
+	<h1 align="center" style="font-family:Avenir">Welcome Back! {{username}}</h1>
+	<div align="center">
+		<a href="/logout">
+			<input type='button' value='Sign Out' style="font-size:15px"/>
+		</a>
+		<a href="/staff/view_flight">
+			<input type='button' value='Go Back' style="font-size:15px"/></br>
+		</a>
+    </div>
+
+	<div style="width:100%; float:left; font-family:Avenir">
+		<h2 align="center">Customer Lists</h2>
+		<table align="center" border="1" bordercolor=black cellpadding="10px" cellspacing="0px" frame=void
+			rules="all" width=93% >
+			<th>Customer Email</th>
+			<th>Airline</th>
+			<th>Flight No.</th>
+			<th>Ticket ID</th>
+			<th>Departure Time</th>
+			<th>Departure Airport</th>
+			<th>Arrival Time</th>
+			<th>Arrival Airport</th>
+			<th>Booking Agent ID</th>
+			{% for line in posts %}
+			<tr align="center">
+				<td >{{line[0]}}</td>
+				<td >{{line[1]}}</td>
+				<td >{{line[2]}}</td>
+				<td >{{line[3]}}</td>
+				<td >{{line[4]}}</td>
+				<td >{{line[5]}}</td>
+				<td>{{line[6]}}</td>	
+				<td>{{line[7]}}</td>
+                <td>{{line[8]}}</td>
+                <td>{{line[9]}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+	</div>
+
+</body>
+</html>
